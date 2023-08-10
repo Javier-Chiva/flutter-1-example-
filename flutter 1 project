@@ -1,7 +1,14 @@
 import 'dart:html'; 
+ 
+
 void main() {
+  var rosco = Rosco();
+  var prineraDefinicion = rosco.obtenerPregunta();
   
+ querySelector("#pregunta").text = primeraDefinicion.definicion;
 }
+ 
+
 
 class Rosco {
   List<Pregunta> roscoPreguntas = [];
@@ -33,7 +40,7 @@ class Rosco {
   }
   
   Pregunta obtenerPregunta() {
-    return Pregunta("", "", "");
+    return roscoPreguntas[0];
   }
   
   Pregunta pasapalabra() {

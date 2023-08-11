@@ -1,4 +1,4 @@
-  import 'dart:html';
+import 'dart:html';
 
 void main() {
   var rosco = Rosco();
@@ -13,14 +13,21 @@ void main() {
   if (preguntaLetra != null) {
     preguntaLetra.text = primeraDefinicion.letra;
   }
-  
- querySelector("#btnEnviar").onClick.listen((event) {
-    var respuesta = (querySelector("#textRespuesta") as InputElement).value;
-    var letra = querySelector("#letra").text;
-    // Aquí debería estar la lógica para usar las variables 'respuesta' y 'letra'.
-});
 
+  querySelector("#btnEnviar")?.onClick?.listen((event) {
+    var respuesta = (querySelector("#textRespuesta") as InputElement?)?.value;
+    var letra = querySelector("#letra")?.text;
+    
+ 
 
+    if (respuesta != null && letra != null) {
+      // Aquí puedes colocar la lógica para usar las variables 'respuesta' y 'letra'.
+      print("Respuesta: $respuesta, Letra: $letra");
+    }
+    
+   String mensaje = rosco.evaluarRespuesta(letra, String respuesta);
+   print(mensaje);
+  });
 }
 
 class Rosco {
@@ -47,7 +54,8 @@ class Rosco {
   Rosco() {
     for (var letra in letras) {
       var index = letras.indexOf(letra);
-      var roscoPregunta = Pregunta(letra, definiciones[index], respuestas[index]);
+      var roscoPregunta =
+          Pregunta(letra, definiciones[index], respuestas[index]);
       roscoPreguntas.add(roscoPregunta);
     }
   }
@@ -59,10 +67,17 @@ class Rosco {
   Pregunta pasapalabra() {
     return Pregunta("", "", "");
   }
-
-  String evaluarRespuesta(String letra, String respuesta) {
-    return "";
+  
+ String evaluarRespuesta(String letra, String? respuesta) {
+  var esCorrecta = roscoPreguntas.any((rosco) => 
+    rosco.letra == letra && rosco.respuesta == respuesta);
+  
+  if (esCorrecta) {
+    return "Letra $letra respuesta correcta"; 
   }
+  return "Letra $letra respuesta incorrecta";
+}
+
 }
 
 class Pregunta {

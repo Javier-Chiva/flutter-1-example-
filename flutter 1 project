@@ -1,4 +1,4 @@
-import 'dart:html';
+  import 'dart:html';
 
 void main() {
   var rosco = Rosco();
@@ -13,46 +13,14 @@ void main() {
   if (preguntaLetra != null) {
     preguntaLetra.text = primeraDefinicion.letra;
   }
-
-  querySelector("#btnEnviar").onClick.listen((event) {
+  
+ querySelector("#btnEnviar").onClick.listen((event) {
     var respuesta = (querySelector("#textRespuesta") as InputElement).value;
-    var letra = preguntaLetra.text;
+    var letra = querySelector("#letra").text;
+    // Aquí debería estar la lógica para usar las variables 'respuesta' y 'letra'.
+});
 
-    
-    
-    
-var btnEnviar = querySelector("#btnEnviar");
-  if(btnEnviar != null) {
-   btnEnviar.onClick.listen(event);
-  }
-    
-    
-                                                           
-     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // Lógica de evaluación de respuesta
-  });
+
 }
 
 class Rosco {

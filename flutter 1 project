@@ -1,16 +1,21 @@
 import 'dart:html';
-
+import 'dart:collection';
  
 
 class Rosco {
-  List<Pregunta> roscoPreguntas = [];
+  ListQueue<Pregunta> roscoPreguntas = ListQueue<Pregunta>();
+  List<String> respondidas = [];
 
   Rosco() {
     roscoPreguntas.addAll(RoscoApi().obtenerRosco());
   }
 
-  Pregunta obtenerPregunta() {
-    return roscoPreguntas[0];
+  Pregunta obtenerPregunta(bool inicial) {
+    if(inicial) { 
+      return roscoPreguntas.first;
+    } else {
+        return roscoPreguntas.first;
+    }
   }
 
   Pregunta pasapalabra() {
@@ -18,15 +23,19 @@ class Rosco {
   }
 
   String evaluarRespuesta(String? letra, String? respuesta) {
-    var esCorrecta = roscoPreguntas
-        .any((rosco) => rosco.letra == letra && rosco.respuesta == respuesta);
+    var pregunta = roscoPreguntas
+        .firstWhere((rosco) => rosco.letra == letra );
+    
+    respondidas.add(pregunta.letra);
+    
+      print(respondidas);
 
-    if (esCorrecta) {
-      return "Letra $letra respuesta correcta";
-    }
-    return "Letra $letra respuesta incorrecta";
+    return pregunta.respuesta == respuesta ? "Letra $letra respuesta correcta" : "Letra $letra respuesta incorrecta";
+   
+   
   }
 }
+ 
 
 class Pregunta {
   String letra;
@@ -73,7 +82,7 @@ class RoscoApi {
 
 void main() {
   var rosco = Rosco();
-  var primeraDefinicion = rosco.obtenerPregunta();
+  var primeraDefinicion = rosco.obtenerPregunta(true);
 
   var preguntaElement = querySelector("#pregunta");
   if (preguntaElement != null) {

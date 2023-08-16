@@ -1,4 +1,4 @@
-import 'dart:html';
+ import 'dart:html';
 import 'dart:collection';
  
 
@@ -10,13 +10,18 @@ class Rosco {
     roscoPreguntas.addAll(RoscoApi().obtenerRosco());
   }
 
-  Pregunta obtenerPregunta(bool inicial) {
-    if(inicial) { 
-      return roscoPreguntas.first;
-    } else {
-        return roscoPreguntas.first;
-    }
-  }
+Pregunta obtenerPregunta(bool inicial) {
+  if (inicial) return roscoPreguntas.first;
+  
+  var siguientePregunta = roscoPreguntas.firstWhere(
+    (rosco) => !respondidas.any((x) => x == rosco.letra),
+    orElse: () => null as Pregunta, // Utiliza 'null' como valor nulo con el tipo Pregunta
+  );
+  
+  return siguientePregunta;
+}
+
+   
 
   Pregunta pasapalabra() {
     return Pregunta("", "", "");
@@ -104,7 +109,17 @@ void main() {
     }
 
     String mensaje = rosco.evaluarRespuesta(letra, respuesta);
-
+    
+    var nuevaPregunta = rosco.obtenerPregunta(false);
+    
+    actualizarUI(nuevaPregunta);
+     
     print(mensaje);
   });
 }
+
+void actualizarUI(Pregunta pregunta){
+  querySelector("#letra")?.text = pregunta.letra;
+  querySelector("#pregunta")?.text = pregunta.definicion;
+  querySelector("#textRespuesta")?.text = "";
+  }
